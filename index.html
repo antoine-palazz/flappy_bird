@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="description" content="La Volière du Trésor — Un jeu d'aventure par Antoine">
+  <title>La Volière du Trésor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Canvas principal du jeu -->
+  <canvas id="game-canvas"></canvas>
+
+  <!-- Canvas confettis (victoire) -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- HUD en jeu -->
+  <div id="hud">
+    <div class="hud-left">
+      <!-- Score affiché sur le canvas directement -->
+    </div>
+    <div class="hud-right">
+      <button class="hud-btn" id="hud-pause" aria-label="Pause">⏸</button>
+      <button class="hud-btn" id="hud-mute" aria-label="Couper le son">🔊</button>
+    </div>
+  </div>
+
+  <!-- Message milestone -->
+  <div id="milestone"></div>
+
+  <!-- ========== ÉCRAN MENU ========== -->
+  <div class="overlay" id="menu-screen">
+    <div class="overlay-content">
+      <h1 class="title">La Volière du Trésor</h1>
+      <p class="subtitle">Maître du jeu : <strong>Antoine</strong></p>
+      <p class="humor">Bienvenue aventurier ! Je suis Antoine, maître du jeu.<br>Es-tu prêt à relever le défi ?</p>
+      <div class="buttons-row" style="flex-direction: column; align-items: center;">
+        <button class="btn btn-primary" id="btn-play">🎮 Jouer</button>
+        <button class="btn btn-music" id="btn-music">🎵 Activer la musique</button>
+        <button class="btn btn-secondary" id="btn-instructions">📜 Instructions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ÉCRAN INSTRUCTIONS ========== -->
+  <div class="overlay" id="instructions-screen">
+    <div class="overlay-content">
+      <h2 class="title" style="font-size: clamp(1.3rem, 4vw, 2rem);">Comment jouer</h2>
+      <ul class="instructions-list">
+        <li><span class="key">Espace</span> ou <span class="key">Clic</span> — Voler (battement d'ailes)</li>
+        <li><span class="key">Tap</span> sur mobile — Voler</li>
+        <li><span class="key">P</span> — Pause</li>
+        <li><span class="key">R</span> — Recommencer</li>
+        <li><span class="key">M</span> — Couper / activer le son</li>
+      </ul>
+      <div class="goal-text">
+        🏆 Objectif : atteins <strong>100 points</strong> pour débloquer l'indice final de la chasse au trésor !
+      </div>
+      <div class="buttons-row">
+        <button class="btn btn-secondary" id="btn-back-menu">← Retour</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ÉCRAN PAUSE ========== -->
+  <div class="overlay" id="pause-screen">
+    <div class="overlay-content">
+      <h2 class="title" style="font-size: clamp(1.5rem, 4vw, 2.2rem);">⏸ Pause</h2>
+      <p class="humor">Petite pause ? Antoine attend patiemment...</p>
+      <div class="buttons-row">
+        <button class="btn btn-primary" id="btn-resume">▶ Reprendre</button>
+        <button class="btn btn-secondary" id="btn-pause-menu">🏠 Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ÉCRAN GAME OVER ========== -->
+  <div class="overlay" id="game-over-screen">
+    <div class="overlay-content">
+      <h2 class="title" style="font-size: clamp(1.3rem, 4vw, 2rem);">Perdu !</h2>
+      <p class="humor">Antoine a tout vu… Revanche ?</p>
+      <p class="score-label">Score</p>
+      <p class="score-display go-score">0</p>
+      <p class="best-score">Meilleur : <span class="go-best">0</span></p>
+      <div class="buttons-row">
+        <button class="btn btn-primary" id="btn-replay">🔄 Rejouer</button>
+        <button class="btn btn-secondary" id="btn-go-menu">🏠 Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ÉCRAN VICTOIRE ========== -->
+  <div class="overlay" id="victory-screen">
+    <div class="overlay-content">
+      <h2 class="title">🎉 Bravo !</h2>
+      <p class="score-label">Score</p>
+      <p class="score-display vic-score">100</p>
+      <p style="font-size: clamp(0.95rem, 2.5vw, 1.15rem); color: #69f0ae; font-weight: 600; margin: 10px 0;">
+        Tu as gagné l'indice final de la chasse au trésor !
+      </p>
+      <div class="url-box">
+        <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 6px;">🔗 Lien vers l'étape suivante :</p>
+        <p class="vic-url"></p>
+      </div>
+      <div class="buttons-row">
+        <button class="btn btn-copy">📋 Copier le lien</button>
+        <button class="btn btn-open">🌐 Ouvrir</button>
+      </div>
+      <div class="buttons-row">
+        <button class="btn btn-secondary" id="btn-vic-menu">🏠 Menu</button>
+      </div>
+      <p class="badge">✅ Validé par Antoine, maître du jeu</p>
+    </div>
+  </div>
+
+  <!-- Scripts (modules ES) -->
+  <script type="module" src="src/ui.js"></script>
+
+</body>
+</html>

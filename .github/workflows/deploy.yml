@@ -1,0 +1,82 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Permissions nécessaires pour GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check JS syntax
+        run: |
+          node --check src/game.js
+          node --check src/audio.js
+          node --check src/ui.js
+          echo "All JS files pass syntax validation"
+
+      - name: Verify no URL leak
+        run: |
+          # Rechercher toute occurrence en clair de l'URL secrète
+          if grep -r "short\.binets" --include="*.js" --include="*.html" --include="*.css" --include="*.md" .; then
+            echo "ERROR: URL leak detected!"
+            exit 1
+          fi
+          if grep -r "six_seven" --include="*.js" --include="*.html" --include="*.css" --include="*.md" .; then
+            echo "ERROR: URL leak detected!"
+            exit 1
+          fi
+          echo "No URL leak found"
+
+      - name: Verify required files exist
+        run: |
+          test -f index.html || { echo "Missing index.html"; exit 1; }
+          test -f styles.css || { echo "Missing styles.css"; exit 1; }
+          test -f src/game.js || { echo "Missing src/game.js"; exit 1; }
+          test -f src/audio.js || { echo "Missing src/audio.js"; exit 1; }
+          test -f src/ui.js || { echo "Missing src/ui.js"; exit 1; }
+          echo "All required files present"
+
+  deploy:
+    name: Deploy
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
