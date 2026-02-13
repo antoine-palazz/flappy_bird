@@ -43,7 +43,7 @@ const TERMINAL_VEL = 10;
 const BASE_PIPE_SPEED = 2.8;
 const BASE_GAP = 155;
 const PIPE_WIDTH_RATIO = 0.15; // pourcentage de la largeur
-const MIN_GAP = 115;
+const MIN_GAP = 125;
 const PIPE_SPAWN_DIST_RATIO = 0.55; // distance entre tuyaux en % largeur
 
 // Oiseau
